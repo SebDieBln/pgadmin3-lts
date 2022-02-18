@@ -84,6 +84,10 @@
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release (3.0)|x64'">true</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PreBuildEvent>
+      <Message>Extracting subversion repository version</Message>
+      <Command>ver_svn.bat</Command>
+    </PreBuildEvent>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MkTypLibCompatible>true</MkTypLibCompatible>
@@ -257,6 +261,10 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release (3.0)|x64'">
+    <PreBuildEvent>
+      <Message>Extracting subversion repository version</Message>
+      <Command>ver_svn.bat</Command>
+    </PreBuildEvent>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MkTypLibCompatible>true</MkTypLibCompatible>
