@@ -167,6 +167,7 @@ Building:
    - Run
        echo SHARED = 1 >> ..\..\build\msw\config.vc
        echo BUILD = release>> ..\..\build\msw\config.vc
+	   echo TARGET_CPU = X64>> ..\..\build\msw\config.vc
        nmake -f makefile.vc COMPILER_VERSION=142
 
 3) Unpack PostgreSQL to a convenient location pointed to by the %PGDIR%
