@@ -278,12 +278,12 @@ void dlgJob::OnChangeStep(wxCommandEvent &ev)
 		if (lstSteps->GetText(pos, 3).IsEmpty())
 		{
 			wxString *stepSql = new wxString(step.GetInsertSql());
-			lstSteps->SetItemData(pos, (long)stepSql);
+			lstSteps->SetItemPtrData(pos, (wxUIntPtr)stepSql);
 		}
 		else
 		{
 			wxString *stepSql = new wxString(step.GetUpdateSql());
-			lstSteps->SetItemData(pos, (long)stepSql);
+			lstSteps->SetItemPtrData(pos, (wxUIntPtr)stepSql);
 		}
 
 		CheckChange();
@@ -307,7 +307,7 @@ void dlgJob::OnAddStep(wxCommandEvent &ev)
 	{
 		int pos = lstSteps->AppendItem(stepFactory.GetIconId(), step.GetName(), step.GetComment());
 		wxString *stepSql = new wxString(step.GetInsertSql());
-		lstSteps->SetItemData(pos, (long)stepSql);
+		lstSteps->SetItemPtrData(pos, (wxUIntPtr)stepSql);
 		CheckChange();
 	}
 }
@@ -349,12 +349,12 @@ void dlgJob::OnChangeSchedule(wxCommandEvent &ev)
 		if (lstSchedules->GetText(pos, 3).IsEmpty())
 		{
 			wxString *scheduleSql = new wxString(schedule.GetInsertSql());
-			lstSchedules->SetItemData(pos, (long)scheduleSql);
+			lstSchedules->SetItemPtrData(pos, (wxUIntPtr)scheduleSql);
 		}
 		else
 		{
 			wxString *scheduleSql = new wxString(schedule.GetUpdateSql());
-			lstSchedules->SetItemData(pos, (long)scheduleSql);
+			lstSchedules->SetItemPtrData(pos, (wxUIntPtr)scheduleSql);
 		}
 
 		CheckChange();
@@ -371,7 +371,7 @@ void dlgJob::OnAddSchedule(wxCommandEvent &ev)
 	{
 		int pos = lstSchedules->AppendItem(scheduleFactory.GetIconId(), schedule.GetName(), schedule.GetComment());
 		wxString *scheduleSql = new wxString(schedule.GetInsertSql());
-		lstSchedules->SetItemData(pos, (long)scheduleSql);
+		lstSchedules->SetItemPtrData(pos, (wxUIntPtr)scheduleSql);
 		CheckChange();
 	}
 }
