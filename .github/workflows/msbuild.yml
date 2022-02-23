@@ -60,7 +60,7 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       shell: pwsh
       run: |
-        Invoke-WebRequest -Uri "https://github.com/wxWidgets/wxWidgets/releases/download/v3.0.5/wxMSW-3.0.5_vc142_Dev.7z" -OutFile wxWidgets-devel.7z
+        Invoke-WebRequest -Uri "https://github.com/wxWidgets/wxWidgets/releases/download/v3.0.5/wxMSW-3.0.5_vc142_x64_Dev.7z" -OutFile wxWidgets-devel.7z
         7z.exe x wxWidgets-devel.7z -o${{env.WXWIN}}
 
     - name: Download and unpack wxWidgets release libraries
@@ -68,28 +68,28 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       shell: pwsh
       run: |
-        Invoke-WebRequest -Uri "https://github.com/wxWidgets/wxWidgets/releases/download/v3.0.5/wxMSW-3.0.5_vc142_ReleaseDLL.7z" -OutFile wxWidgets-libraries.7z
+        Invoke-WebRequest -Uri "https://github.com/wxWidgets/wxWidgets/releases/download/v3.0.5/wxMSW-3.0.5_vc142_x64_ReleaseDLL.7z" -OutFile wxWidgets-libraries.7z
         7z.exe x wxWidgets-libraries.7z -o${{env.WXWIN}}
 
     - name: Download and unpack PostgreSQL
       working-directory: ${{env.GITHUB_WORKSPACE}}
       shell: pwsh
       run: |
-        Invoke-WebRequest -Uri "https://get.enterprisedb.com/postgresql/postgresql-10.19-1-windows-binaries.zip?ls=Crossover&type=Crossover" -OutFile postgres-binaries.zip
+        Invoke-WebRequest -Uri "https://get.enterprisedb.com/postgresql/postgresql-10.20-1-windows-x64-binaries.zip" -OutFile postgres-binaries.zip
         7z.exe x postgres-binaries.zip -o${{env.PGDIR}}\..
 
     - name: Set up Visual Studio shell
       if: ${{ matrix.build_conf == 'Release' }}
       uses: egor-tensin/vs-shell@v2
       with:
-        arch: x86
+        arch: x64
 
     - name: Build libssh2
       working-directory: ${{env.GITHUB_WORKSPACE}}
       shell: cmd
       run: |
         md libssh2-build && cd libssh2-build
-        cmake -DCRYPTO_BACKEND=WinCNG -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=%LIBSSH2DIR% -DCMAKE_BUILD_TYPE=Release -A Win32 ..\libssh2-libssh2-1.10.0
+        cmake -DCRYPTO_BACKEND=WinCNG -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=%LIBSSH2DIR% -DCMAKE_BUILD_TYPE=Release -A x64 ..\libssh2-libssh2-1.10.0
         cmake --build . --target install
 
     - name: Build hhp2cached
@@ -99,10 +99,11 @@ jobs:
       run: |
         echo SHARED = 1 >> ..\..\build\msw\config.vc
         echo BUILD = release>> ..\..\build\msw\config.vc
+        echo TARGET_CPU = X64>> ..\..\build\msw\config.vc
         nmake -f makefile.vc COMPILER_VERSION=142
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
-      run: msbuild /m /p:Configuration=${{matrix.build_conf}} ${{env.SOLUTION_FILE_PATH}}
+      run: msbuild /m /p:Configuration=${{matrix.build_conf}} /p:Platform=x64 ${{env.SOLUTION_FILE_PATH}}
